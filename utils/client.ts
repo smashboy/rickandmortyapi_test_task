@@ -1,11 +1,11 @@
 export async function fetchHelper<T>(
   url: string,
-  params: Array<{ key: string; value: string }> = []
+  params: Array<{ key: string; value: string | undefined }> = []
 ) {
   const searchParams = new URLSearchParams();
 
   for (const parameter of params) {
-    searchParams.append(parameter.key, parameter.value);
+    if (parameter.value) searchParams.append(parameter.key, parameter.value);
   }
 
   const parsedUrl = `${url}?${searchParams.toString()}`;

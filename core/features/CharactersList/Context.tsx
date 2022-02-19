@@ -1,6 +1,7 @@
 import { useSession } from "core/hooks/useSession";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useInfiniteQuery } from "react-query";
+import { useDebounce } from "use-debounce";
 import type { Character, Info } from "rickmortyapi/dist/interfaces";
 import { fetchHelper } from "utils/client";
 
@@ -25,11 +26,14 @@ const Context = createContext<CharactersListContext | null>(null);
 
 interface FetchCharactersPaginatedProps {
   pageParam?: number;
+  filter?: string;
+  queryKey: string | readonly unknown[];
 }
 
 function fetchCharactersPaginated(props: FetchCharactersPaginatedProps) {
   return fetchHelper<Info<Character[]>>("/api/characters/paginated", [
     { key: "page", value: props?.pageParam?.toString() || "1" },
+    { key: "filter", value: (props.queryKey[1] as string) || undefined },
   ]);
 }
 
@@ -40,10 +44,11 @@ export function CharactersListProvider(props: CharactersListProviderProps) {
 
   const [selectedTab, setSelectedTab] = useState<ListType>("paginated");
   const [query, setQuery] = useState("");
+  const [debouncedQuery] = useDebounce(query, 1000);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useInfiniteQuery<
     Info<Character[]>
-  >("characters/paginated", fetchCharactersPaginated, {
+  >(["characters/paginated", debouncedQuery], fetchCharactersPaginated, {
     getNextPageParam: (lastPage) => {
       if (lastPage.info?.next) {
         const nextPage = lastPage.info.next.split("page=")[1];

@@ -6,13 +6,13 @@ export default async function getCharactersPaginatedRoute(
   res: NextApiResponse
 ) {
   try {
-    const { page } = req.query;
+    const { page, filter } = req.query;
 
     const parsedPage = parseInt(page as string);
 
     if (Number.isNaN(parsedPage)) return res.status(400).json({ message: "Invalid query" });
 
-    const data = await getCharactersPaginated(parsedPage);
+    const data = await getCharactersPaginated(parsedPage, filter as string);
 
     res.status(200).json({ ...data.data });
   } catch (error) {
