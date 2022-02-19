@@ -26,7 +26,6 @@ const Context = createContext<CharactersListContext | null>(null);
 
 interface FetchCharactersPaginatedProps {
   pageParam?: number;
-  filter?: string;
   queryKey: string | readonly unknown[];
 }
 
