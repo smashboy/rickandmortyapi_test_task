@@ -12,13 +12,13 @@ import {
   Typography,
   Skeleton,
 } from "@mui/material";
-import { AuthDialog } from "core/components/AuthDialog";
+import { AuthDialog } from "core/features/AuthDialog";
 import { Button } from "core/components/Button";
 import { useSession } from "core/hooks/useSession";
 import { signOut } from "next-auth/react";
 
 interface MainLayoutProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 function UserProfile() {
