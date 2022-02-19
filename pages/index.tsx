@@ -1,5 +1,17 @@
+import { Grid, Typography } from "@mui/material";
+import { CharactersList } from "core/features/CharactersList";
+
 const Home = () => {
-  return <div />;
+  return (
+    <Grid container rowSpacing={2}>
+      <Grid container item xs={12} justifyContent="center">
+        <Typography variant="h4">Characters</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <CharactersList />
+      </Grid>
+    </Grid>
+  );
 };
 
 export default Home;

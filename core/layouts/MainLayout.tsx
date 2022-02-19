@@ -82,7 +82,7 @@ export function MainLayout(props: MainLayoutProps) {
           </Suspense>
         </Toolbar>
       </AppBar>
-      <Container>{children}</Container>
+      <Container sx={{ marginTop: 3, paddingBottom: 5 }}>{children}</Container>
     </>
   );
 }

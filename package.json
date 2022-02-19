@@ -12,6 +12,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.4.2",
+    "@mui/lab": "^5.0.0-alpha.69",
     "@mui/material": "^5.4.2",
     "next": "12.1.0",
     "next-auth": "^4.2.1",
@@ -19,7 +20,8 @@
     "react-dom": "^18.0.0-rc.0",
     "react-query": "^3.34.15",
     "react-virtuoso": "^2.7.1",
-    "rickmortyapi": "^1.0.0"
+    "rickmortyapi": "^1.0.0",
+    "use-debounce": "^7.0.1"
   },
   "devDependencies": {
     "@types/node": "17.0.18",

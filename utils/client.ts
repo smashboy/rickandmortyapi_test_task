@@ -1,14 +1,28 @@
-export async function fetchHelper(
-  urlSring: string,
+export async function fetchHelper<T>(
+  url: string,
   params: Array<{ key: string; value: string }> = []
 ) {
-  const url = new URL(urlSring);
+  const searchParams = new URLSearchParams();
 
   for (const parameter of params) {
-    url.searchParams.append(parameter.key, parameter.value);
+    searchParams.append(parameter.key, parameter.value);
   }
 
-  const res = await fetch(url.toString());
+  const parsedUrl = `${url}?${searchParams.toString()}`;
 
-  return res.json();
+  const res = await fetch(parsedUrl);
+
+  return res.json() as Promise<T>;
+}
+
+export function stringifyValue(newValue: any) {
+  let storageValue: string | null = null;
+
+  if (typeof newValue === "string") {
+    storageValue = newValue;
+  } else {
+    storageValue = JSON.stringify(newValue);
+  }
+
+  return storageValue;
 }
