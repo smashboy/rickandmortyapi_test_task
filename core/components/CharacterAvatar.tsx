@@ -35,10 +35,6 @@ export function CharacterAvatar(props: CharacterAvatarProps) {
 
   useEffect(() => {
     handleLoadCachedImage();
-
-    // return () => {
-    //   console.log(image);
-    // };
   }, []);
 
   useEffect(() => {
