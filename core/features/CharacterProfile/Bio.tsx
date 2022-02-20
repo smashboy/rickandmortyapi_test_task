@@ -15,7 +15,7 @@ export function CharacterProfileBio() {
     >
       <Grid container rowSpacing={1}>
         <Grid container item xs={12} justifyContent="center">
-          <Avatar src={character.image} alt={character.name} sx={{ width: 90, height: 90 }} />
+          <Avatar src={character.image} alt={character.name} sx={{ width: 120, height: 120 }} />
         </Grid>
         <Grid container item xs={12} justifyContent="center">
           <Typography variant="h5">{character.name}</Typography>
