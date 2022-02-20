@@ -8,6 +8,7 @@ import { useSession } from "core/hooks/useSession";
 import { usePersistentState } from "core/hooks/usePersistentState";
 import { fetchHelper } from "utils/client";
 import { useQuery } from "react-query";
+import { useCharactersList } from "./Context";
 
 interface FetchLikedCharactersProps {
   queryKey: readonly unknown[];
@@ -22,6 +23,8 @@ function fetchLikedCharacters(props: FetchLikedCharactersProps) {
 }
 
 export function LikedCharactersList() {
+  const { query } = useCharactersList();
+
   const session = useSession();
 
   const storedLikedCharacters = usePersistentState<number[]>(
@@ -33,6 +36,14 @@ export function LikedCharactersList() {
     ["characters/liked", ...storedLikedCharacters.value!],
     fetchLikedCharacters
   );
+
+  const filteredCharacters = useMemo(() => {
+    const characters = data || [];
+
+    return query
+      ? characters.filter((character) => character.name.toLowerCase().includes(query.toLowerCase()))
+      : characters;
+  }, [data, query]);
 
   const Components: Components = useMemo(
     () => ({
@@ -49,7 +60,7 @@ export function LikedCharactersList() {
 
   return (
     <Virtuoso
-      data={data || []}
+      data={filteredCharacters}
       components={Components}
       itemContent={(_, character) => <CharacterListItem key={character.id} character={character} />}
       useWindowScroll
