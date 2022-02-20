@@ -45,7 +45,7 @@ export function CharactersListProvider(props: CharactersListProviderProps) {
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 1000);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useInfiniteQuery<
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<
     Info<Character[]>
   >(["characters/paginated", debouncedQuery], fetchCharactersPaginated, {
     getNextPageParam: (lastPage) => {

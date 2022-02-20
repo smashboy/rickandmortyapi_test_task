@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Tab, Tabs, TextField } from "@mui/material";
+import { Grid, Paper, Tab, Tabs, TextField } from "@mui/material";
 import { useSession } from "core/hooks/useSession";
 import { useCharactersList } from "./Context";
 
