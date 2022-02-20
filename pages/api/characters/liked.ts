@@ -8,7 +8,7 @@ export default async function getCharactersPaginatedRoute(
   try {
     const id = req.query.id;
 
-    if (!(id instanceof Array) && typeof id !== "string")
+    if (!(id instanceof Array) && typeof id !== "string" && req.method !== "GET")
       return res.status(400).json({ message: "Invalid query" });
 
     const ids =

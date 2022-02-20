@@ -10,7 +10,8 @@ export default async function getCharactersPaginatedRoute(
 
     const parsedPage = parseInt(page as string);
 
-    if (Number.isNaN(parsedPage)) return res.status(400).json({ message: "Invalid query" });
+    if (Number.isNaN(parsedPage) || req.method !== "GET")
+      return res.status(400).json({ message: "Invalid query" });
 
     const data = await getCharactersPaginated(parsedPage, filter as string);
 
