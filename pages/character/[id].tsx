@@ -1,5 +1,5 @@
-import { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
+import type { NextPage, GetServerSideProps } from "next";
 import type { Character } from "integrations/rickmortyapi/types";
 import { getCharacter } from "integrations/rickmortyapi/character";
 import { Grid } from "@mui/material";

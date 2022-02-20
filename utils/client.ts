@@ -37,3 +37,39 @@ export function formatUserFriendlyDate(date: Date) {
     day: "numeric",
   }).format(date);
 }
+
+async function cacheFetch(cacheName: string, key: string) {
+  try {
+    const cacheApi = self.caches;
+
+    const request = new Request(key);
+    const cache = await cacheApi.open(cacheName);
+    const response = await cache.match(request);
+    if (!response) return null;
+
+    const blob = await response.blob();
+
+    return new Blob([blob], { type: blob.type });
+  } catch (err) {
+    console.warn(err);
+    return null;
+  }
+}
+
+async function cacheSave(cacheName: string, key: string, data: Blob) {
+  try {
+    const cacheApi = self.caches;
+
+    const cacheData = data;
+    const request = new Request(key);
+
+    const response = new Response(cacheData);
+    const cache = await cacheApi.open(cacheName);
+
+    await cache.put(request, response);
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+export const cache = { fetch: cacheFetch, save: cacheSave };

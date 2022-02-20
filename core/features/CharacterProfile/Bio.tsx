@@ -1,8 +1,8 @@
-import AddCharacterPhotoIcon from "@mui/icons-material/AddPhotoAlternate";
-import { Avatar, Grid, IconButton, Paper, Stack, Typography, Divider } from "@mui/material";
-import { ArrowTooltip } from "core/components/ArrowTooltip";
+import { Grid, Paper, Stack, Typography, Divider } from "@mui/material";
+import { CharacterAvatar } from "core/components/CharacterAvatar";
 import { Suspense } from "react";
 import { formatUserFriendlyDate } from "utils/client";
+import { AvatarUploader } from "./AvatarUploader";
 import { useCharacterProfile } from "./Context";
 import { DescriptionItem } from "./DescriptionItem";
 import { LikeCharacterButton } from "./LikeButton";
@@ -16,18 +16,20 @@ export function CharacterProfileBio() {
     >
       <Grid container rowSpacing={1}>
         <Grid container item xs={12} justifyContent="center">
-          <Avatar src={character.image} alt={character.name} sx={{ width: 120, height: 120 }} />
+          <CharacterAvatar
+            url={character.image}
+            name={character.name}
+            id={character.id}
+            sx={{ width: 120, height: 120 }}
+            isProfile
+          />
         </Grid>
         <Grid container item xs={12} justifyContent="center">
           <Typography variant="h5">{character.name}</Typography>
         </Grid>
         <Grid container item xs={12} justifyContent="center">
           <Stack direction="row" spacing={1}>
-            <ArrowTooltip title="Change profile photo">
-              <IconButton>
-                <AddCharacterPhotoIcon />
-              </IconButton>
-            </ArrowTooltip>
+            <AvatarUploader />
             <Suspense fallback={null}>
               <LikeCharacterButton />
             </Suspense>

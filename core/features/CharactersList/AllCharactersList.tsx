@@ -1,13 +1,13 @@
 import { forwardRef, useMemo } from "react";
 import { Components, Virtuoso } from "react-virtuoso";
 import { List } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
 import { useInfiniteQuery } from "react-query";
 import type { Character, Info } from "rickmortyapi/dist/interfaces";
 import { VirtualListItem } from "core/components/VirtualListItem";
 import { fetchHelper } from "utils/client";
 import { CharacterListItem } from "./ListItem";
 import { useCharactersList } from "./Context";
+import { LoadingButton } from "core/components/LoadingButton";
 
 interface FetchCharactersPaginatedProps {
   pageParam?: number;

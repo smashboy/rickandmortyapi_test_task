@@ -1,7 +1,9 @@
-import { CharacterPageProps } from "pages/character/[id]";
-import { createContext, useState, useContext } from "react";
+import type { CharacterPageProps } from "pages/character/[id]";
+import { createContext, useState, useContext, useCallback } from "react";
 
-interface CharacterProfileContext extends CharacterPageProps {}
+interface CharacterProfileContext extends CharacterPageProps {
+  changeAvatar: (newAvatar: File) => void;
+}
 
 const Context = createContext<CharacterProfileContext | null>(null);
 
@@ -14,7 +16,17 @@ export function CharacterProfileProvider(props: CharacterProfileProvider) {
 
   const [character, setCharacter] = useState(initialCharacter);
 
-  return <Context.Provider value={{ character }}>{children}</Context.Provider>;
+  const handleChangeAvatar = useCallback(
+    (newAvatar: File) =>
+      setCharacter((prevState) => ({ ...prevState, image: URL.createObjectURL(newAvatar) })),
+    []
+  );
+
+  return (
+    <Context.Provider value={{ character, changeAvatar: handleChangeAvatar }}>
+      {children}
+    </Context.Provider>
+  );
 }
 
 export function useCharacterProfile() {
