@@ -1,10 +1,11 @@
 import AddCharacterPhotoIcon from "@mui/icons-material/AddPhotoAlternate";
-import LikeIcon from "@mui/icons-material/Favorite";
 import { Avatar, Grid, IconButton, Paper, Stack, Typography, Divider } from "@mui/material";
 import { ArrowTooltip } from "core/components/ArrowTooltip";
+import { Suspense } from "react";
 import { formatUserFriendlyDate } from "utils/client";
 import { useCharacterProfile } from "./Context";
 import { DescriptionItem } from "./DescriptionItem";
+import { LikeCharacterButton } from "./LikeButton";
 
 export function CharacterProfileBio() {
   const { character } = useCharacterProfile();
@@ -27,11 +28,9 @@ export function CharacterProfileBio() {
                 <AddCharacterPhotoIcon />
               </IconButton>
             </ArrowTooltip>
-            <ArrowTooltip title="Like characted">
-              <IconButton>
-                <LikeIcon />
-              </IconButton>
-            </ArrowTooltip>
+            <Suspense fallback={null}>
+              <LikeCharacterButton />
+            </Suspense>
           </Stack>
         </Grid>
         <Grid item xs={12}>

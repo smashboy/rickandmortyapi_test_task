@@ -24,7 +24,7 @@ export function usePersistentState<T>(key: string, initialValue?: T) {
   }, []);
 
   const remove = useCallback(() => {
-    setValue(undefined);
+    setValue(initialValue ?? undefined);
     localStorage.removeItem(key);
   }, []);
 

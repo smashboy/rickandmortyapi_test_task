@@ -17,7 +17,7 @@ function fetchLikedCharacters(props: FetchLikedCharactersProps) {
   const ids = props.queryKey.slice(1) as number[];
 
   return fetchHelper<Character[]>("/api/characters/liked", [
-    ...ids.slice(1).map((id) => ({ key: "id", value: id.toString() })),
+    ...ids.map((id) => ({ key: "id", value: id.toString() })),
   ]);
 }
 
@@ -29,9 +29,10 @@ export function LikedCharactersList() {
     []
   );
 
-  const likedIds = useMemo(() => storedLikedCharacters?.value || [], [storedLikedCharacters]);
-
-  const { data } = useQuery(["characters/liked", ...likedIds], fetchLikedCharacters);
+  const { data } = useQuery(
+    ["characters/liked", ...storedLikedCharacters.value!],
+    fetchLikedCharacters
+  );
 
   const Components: Components = useMemo(
     () => ({

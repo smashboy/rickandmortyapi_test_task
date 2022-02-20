@@ -14,6 +14,8 @@ export default async function getCharactersPaginatedRoute(
 
     const data = await getCharactersPaginated(parsedPage, filter as string);
 
+    if (data.status !== 200) return res.status(data.status).json({ message: data.statusMessage });
+
     res.status(200).json({ ...data.data });
   } catch (error) {
     res.status(500).json({ message: JSON.stringify(error) });
