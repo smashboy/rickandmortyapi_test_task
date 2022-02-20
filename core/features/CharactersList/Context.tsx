@@ -1,9 +1,6 @@
 import { useSession } from "core/hooks/useSession";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useInfiniteQuery } from "react-query";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
-import type { Character, Info } from "rickmortyapi/dist/interfaces";
-import { fetchHelper } from "utils/client";
 
 type ListType = "paginated" | "liked";
 
@@ -16,25 +13,10 @@ interface CharactersListContext {
   query: string;
   selectedTab: ListType;
   onTabSelection: (event: React.SyntheticEvent, newTab: ListType) => void;
-  characters: Character[];
-  hasNextPage: boolean;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
+  debouncedQuery: string;
 }
 
 const Context = createContext<CharactersListContext | null>(null);
-
-interface FetchCharactersPaginatedProps {
-  pageParam?: number;
-  queryKey: string | readonly unknown[];
-}
-
-function fetchCharactersPaginated(props: FetchCharactersPaginatedProps) {
-  return fetchHelper<Info<Character[]>>("/api/characters/paginated", [
-    { key: "page", value: props?.pageParam?.toString() || "1" },
-    { key: "filter", value: (props.queryKey[1] as string) || undefined },
-  ]);
-}
 
 export function CharactersListProvider(props: CharactersListProviderProps) {
   const { children } = props;
@@ -45,28 +27,9 @@ export function CharactersListProvider(props: CharactersListProviderProps) {
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 1000);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<
-    Info<Character[]>
-  >(["characters/paginated", debouncedQuery], fetchCharactersPaginated, {
-    getNextPageParam: (lastPage) => {
-      if (lastPage.info?.next) {
-        const nextPage = lastPage.info.next.split("page=")[1];
-        return parseInt(nextPage);
-      }
-    },
-
-    enabled: selectedTab === "paginated",
-  });
-
   useEffect(() => {
     if (!session.data?.user && selectedTab === "liked") setSelectedTab("paginated");
   }, [session]);
-
-  const characters = useMemo(
-    () =>
-      selectedTab === "paginated" ? data?.pages.map((page) => page.results || []).flat() || [] : [],
-    [data, selectedTab]
-  );
 
   const handleSearchInput = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => setQuery(event.currentTarget.value),
@@ -82,13 +45,10 @@ export function CharactersListProvider(props: CharactersListProviderProps) {
     <Context.Provider
       value={{
         query,
+        debouncedQuery,
         onSearchInput: handleSearchInput,
         selectedTab,
         onTabSelection: handleSetSelectedTab,
-        characters,
-        fetchNextPage,
-        hasNextPage: Boolean(hasNextPage),
-        isFetchingNextPage,
       }}
     >
       {children}

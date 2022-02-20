@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { CharactersList } from "core/features/CharactersList";
 
-const Home = () => {
+export default function Home() {
   return (
     <Grid container rowSpacing={2}>
       <Grid container item xs={12} justifyContent="center">
@@ -12,6 +12,4 @@ const Home = () => {
       </Grid>
     </Grid>
   );
-};
-
-export default Home;
+}

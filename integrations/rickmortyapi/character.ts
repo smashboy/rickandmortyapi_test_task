@@ -1,8 +1,11 @@
 import { getCharacter as apiGetCharacter, getEpisode } from "rickmortyapi";
 import type { Character } from "./types";
 
-export async function getCharacter(charactedId: number): Promise<Character> {
+export async function getCharacter(charactedId: number): Promise<Character | null> {
   const character = await apiGetCharacter(charactedId);
+
+  if (character.status === 404) return null;
+  if (character.status !== 200) throw new Error(character.statusMessage);
 
   const { episode: episodesUrl, ...otherCharacterProps } = character.data;
 

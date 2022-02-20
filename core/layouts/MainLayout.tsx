@@ -11,11 +11,13 @@ import {
   Toolbar,
   Typography,
   Skeleton,
+  Box,
 } from "@mui/material";
 import { AuthDialog } from "core/features/AuthDialog";
 import { Button } from "core/components/Button";
 import { useSession } from "core/hooks/useSession";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -74,9 +76,18 @@ export function MainLayout(props: MainLayoutProps) {
     <>
       <AppBar position="sticky">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Rick and Morty
-          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <Link href="/" passHref>
+              <Typography
+                variant="h6"
+                color="text.primary"
+                component="a"
+                sx={{ textDecoration: "none" }}
+              >
+                Rick and Morty
+              </Typography>
+            </Link>
+          </Box>
           <Suspense fallback={<Skeleton variant="circular" width={40} height={40} />}>
             <UserProfile />
           </Suspense>

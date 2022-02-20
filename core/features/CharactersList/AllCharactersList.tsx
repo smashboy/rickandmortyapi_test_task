@@ -2,12 +2,43 @@ import { forwardRef, useMemo } from "react";
 import { Components, Virtuoso } from "react-virtuoso";
 import { List } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { useInfiniteQuery } from "react-query";
+import type { Character, Info } from "rickmortyapi/dist/interfaces";
 import { VirtualListItem } from "core/components/VirtualListItem";
+import { fetchHelper } from "utils/client";
 import { CharacterListItem } from "./ListItem";
 import { useCharactersList } from "./Context";
 
-export function CharactersList() {
-  const { characters, fetchNextPage, hasNextPage, isFetchingNextPage } = useCharactersList();
+interface FetchCharactersPaginatedProps {
+  pageParam?: number;
+  queryKey: readonly unknown[];
+}
+
+function fetchCharactersPaginated(props: FetchCharactersPaginatedProps) {
+  return fetchHelper<Info<Character[]>>("/api/characters/paginated", [
+    { key: "page", value: props?.pageParam?.toString() || "1" },
+    { key: "filter", value: (props.queryKey[1] as string) || undefined },
+  ]);
+}
+
+export function AllCharactersList() {
+  const { debouncedQuery } = useCharactersList();
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<
+    Info<Character[]>
+  >(["characters/paginated", debouncedQuery], fetchCharactersPaginated, {
+    getNextPageParam: (lastPage) => {
+      if (lastPage.info?.next) {
+        const nextPage = lastPage.info.next.split("page=")[1];
+        return parseInt(nextPage);
+      }
+    },
+  });
+
+  const characters = useMemo(
+    () => data?.pages.map((page) => page.results || []).flat() || [],
+    [data]
+  );
 
   const Components: Components = useMemo(
     () => ({

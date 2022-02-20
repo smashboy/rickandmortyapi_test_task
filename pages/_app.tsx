@@ -4,7 +4,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { MainLayout } from "core/layouts/MainLayout";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import darkTheme from "core/themes/darkTheme";
+import { darkTheme } from "core/themes/darkTheme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(

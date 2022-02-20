@@ -26,3 +26,14 @@ export function stringifyValue(newValue: any) {
 
   return storageValue;
 }
+
+export function formatUserFriendlyDate(date: Date) {
+  // navigator.language
+
+  return new Intl.DateTimeFormat("en-US", {
+    // weekday: "short",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
