@@ -1,10 +1,18 @@
 {
+  "root": true,
   "extends": "next/core-web-vitals",
-  "plugins": ["unused-imports", "@typescript-eslint"],
+  "plugins": ["unused-imports", "@typescript-eslint", "testing-library"],
   "rules": {
     "react-hooks/exhaustive-deps": "off",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "unused-imports/no-unused-imports": "error"
-  }
+  },
+  "overrides": [
+    // Only uses Testing Library lint rules in test files
+    {
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ]
 }

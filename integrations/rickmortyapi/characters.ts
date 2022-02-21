@@ -1,4 +1,5 @@
 import { getCharacters, getCharacter } from "rickmortyapi";
+import type { Character, ApiResponse } from "rickmortyapi/dist/interfaces";
 
 export function getCharactersPaginated(page: number, filter?: string) {
   // Package bug
@@ -8,6 +9,8 @@ export function getCharactersPaginated(page: number, filter?: string) {
   return getCharacters(options);
 }
 
-export function getCharactersSelected(ids: number[]) {
+export function getCharactersSelected(
+  ids: number[]
+): Promise<ApiResponse<Character | Character[]>> {
   return getCharacter(ids);
 }
