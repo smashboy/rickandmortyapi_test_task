@@ -1,5 +1,6 @@
 import { forwardRef, useMemo } from "react";
-import { Components, Virtuoso } from "react-virtuoso";
+import { Virtuoso } from "react-virtuoso";
+import type { Components } from "react-virtuoso";
 import { Grid, Typography, List } from "@mui/material";
 import { useCharacterProfile } from "./Context";
 import { VirtualListItem } from "core/components/VirtualListItem";

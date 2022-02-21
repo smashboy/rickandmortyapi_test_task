@@ -1,5 +1,6 @@
 import { forwardRef, useMemo } from "react";
-import { Components, Virtuoso } from "react-virtuoso";
+import { Virtuoso } from "react-virtuoso";
+import type { Components } from "react-virtuoso";
 import { List } from "@mui/material";
 import { useInfiniteQuery } from "react-query";
 import type { Character, Info } from "rickmortyapi/dist/interfaces";
@@ -14,7 +15,7 @@ interface FetchCharactersPaginatedProps {
   queryKey: readonly unknown[];
 }
 
-function fetchCharactersPaginated(props: FetchCharactersPaginatedProps) {
+export function fetchCharactersPaginated(props: FetchCharactersPaginatedProps) {
   return fetchHelper<Info<Character[]>>("/api/characters/paginated", [
     { key: "page", value: props?.pageParam?.toString() || "1" },
     { key: "filter", value: (props.queryKey[1] as string) || undefined },

@@ -18,6 +18,7 @@ import { Button } from "core/components/Button";
 import { useSession } from "core/hooks/useSession";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { CharactersSearch } from "core/features/CharactersSearch";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -43,7 +44,7 @@ function UserProfile() {
   };
 
   return (
-    <>
+    <Box sx={{ paddingLeft: 2 }}>
       {session.data?.user ? (
         <Avatar
           src={session.data.user.image || undefined}
@@ -65,7 +66,7 @@ function UserProfile() {
           <ListItemText primary="Exit" />
         </MenuItem>
       </Menu>
-    </>
+    </Box>
   );
 }
 
@@ -88,6 +89,7 @@ export function MainLayout(props: MainLayoutProps) {
               </Typography>
             </Link>
           </Box>
+          <CharactersSearch />
           <Suspense fallback={<Skeleton variant="circular" width={40} height={40} />}>
             <UserProfile />
           </Suspense>

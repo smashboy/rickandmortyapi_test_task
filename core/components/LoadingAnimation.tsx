@@ -1,13 +1,14 @@
 import { Box, CircularProgress } from "@mui/material";
-import type { BoxProps } from "@mui/material";
+import type { BoxProps, CircularProgressProps } from "@mui/material";
 import type { PickSingleKeyValue } from "utils/common";
 
 interface LoadingAnimationProps {
-  containerStyles: PickSingleKeyValue<BoxProps, "sx">;
+  containerStyles?: PickSingleKeyValue<BoxProps, "sx">;
+  propgressProps?: CircularProgressProps;
 }
 
 export function LoadingAnimation(props: LoadingAnimationProps) {
-  const { containerStyles } = props;
+  const { containerStyles, propgressProps } = props;
 
   return (
     <Box
@@ -21,7 +22,7 @@ export function LoadingAnimation(props: LoadingAnimationProps) {
         ...containerStyles,
       }}
     >
-      <CircularProgress color="primary" />
+      <CircularProgress color="primary" {...propgressProps} />
     </Box>
   );
 }
