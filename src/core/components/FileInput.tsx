@@ -29,6 +29,16 @@ const UploadActionContainer = styled("label")({
   cursor: "pointer",
 });
 
+const UploadInput = styled("input")({
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+  top: 0,
+  cursor: "pointer",
+  left: 0,
+  opacity: 0,
+});
+
 export function FileInput(props: FileInputProps) {
   const { multiple = false, allowedFileTypes, label, onChange, initialFiles = [] } = props;
 
@@ -84,10 +94,9 @@ export function FileInput(props: FileInputProps) {
             </Grid>
           </Grid>
           <UploadActionContainer htmlFor="upload" />
-          <input
+          <UploadInput
             type="file"
             id="upload"
-            hidden
             multiple={multiple}
             onChange={handleFiles}
             accept={allowedFileTypes.join(",")}
